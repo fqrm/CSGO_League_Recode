@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+ <!--<![endif]-->
+<head style="-webkit-app-region: drag"> 
+<meta charset="utf-8" /> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+<title>对战匹配中心</title> 
+<meta name="description" content="" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+<link rel="stylesheet" href="./searchcenter/css/normalize.css" /> 
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./searchcenter/css/bootstrap.min.css" /> 
+<link rel="stylesheet" href="./searchcenter/css/templatemo-style.css" /> 
+<link rel="stylesheet" href="./searchcenter/css/buttons.css" /> 
+<script src="./searchcenter/js/vendor/modernizr-2.6.2.min.js"></script> 
+<style>
+	.searchBtn {
+    display: inline-block;
+		border-radius: 5px;
+		background-color: #CAE1FF;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    font-size: 28px;
+    padding: 20%;
+    width: 240px;
+    height: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+		margin: 5px;
+		box-shadow: 0 5px 20px #33a7ca;
+	}
+	.searchBtn span {
+		cursor: pointer;
+		display: inline-block;
+		position: relative;
+		transition: 0.5s;
+	}
+	
+	.searchBtn span:after {
+		content: '»';
+		position: absolute;
+		opacity: 0;
+		top: 0;
+		right: -20px;
+		transition: 0.5s;
+	}
+	
+	.searchBtn:hover span {
+		padding-right: 25px;
+		box-shadow: 0 0 40px #CAE1FF;
+	}
+	
+	.searchBtn:hover span:after {
+		opacity: 1;
+		right: 0;
+	}
+	.friend-area{
+    position: absolute;
+    width: 100%;
+		padding-top: 20%;
+	}
+	.friend{ 
+		float: left;
+		width: 20%;
+	}
+	.btn-group{
+		padding-top: 22%;
+	}
+	.friend h4{
+		color: #CAE1FF;
+	}
+	.welcome-text P{
+		color: #CAE1FF;
+	}
+	.widget-title{
+		text-align:center;
+		color: #ffffff;
+	}
+	#in_gaming{
+		position: fixed;  
+		top: 0%;  
+		left: 0%;  width: 100%;
+		height: 100%;
+		background-color: black; 
+		z-index:1001;  
+		opacity:.70;
+	}
+	#in_gaming h1{
+		position: static;  
+		color: #ffffff; 
+		vertical-align: middle;
+		padding: 25%;
+	}
+	</style>
+ </head> 
+ <body min-width:0px; style="overflow:hidden;-webkit-app-region: drag"> 
+  <div class="site-bg"></div> 
+  <div class="site-bg-overlay"></div> 
+  <div class="copyrights">
+    这是一个叫做 
+   <a href="http://www.wghsotk.com/">版权的东西</a> 
+  </div> 
+  <div class="container" id="page-content"> 
+   <div class="row"> 
+    <div class="col-md-9 col-sm-12 content-holder"> 
+     <div id="menu-container"> 
+      <div id="menu-1" class="homepage home-section text-center"> 
+       <div class="welcome-text"> 
+        <h2>你好 <strong id="userLoginName">Player</strong></h2> 
+        <p>你准备好了与你的队友们开始紧张刺激的掉段之旅了么?</p> 
+        <div class="btn-group" role="group" aria-label="" style="-webkit-app-region: no-drag;"> 
+				 <button id="searchbutton" class="searchBtn" style="vertical-align:middle"><span id="searchP">点击准备 </span></button>
+				 <div id="in_gaming"><h1>正在游戏中。。。</h1></div>
+        </div> 
+		<p id="count_area">
+			搜索时间：
+			<span id="count_time">0</span>
+		</p>
+       </div> 
+       <!-- 队友详情 --> 
+       <div class="friend-area"> 
+        <div class="friend"> 
+         <img src="./searchcenter/images/player_def.png" alt="" /> 
+         <div class="name" id="Host_Name">
+           <h4 id="{$Roomcont1}"></h4> 
+         </div> 
+         <div class="score"> 
+          <h4 id="Player0_Rank"></h4> 
+         </div> 
+        </div> 
+        <div class="friend"> 
+         <img src="./searchcenter/images/player_def.png" alt="" /> 
+         <div class="name" id="Player1_Name">
+						<h4 id="{$Roomcont2}"></h4>
+         </div> 
+         <div class="score" > 
+          <h4 id="Player1_Rank"></h4> 
+         </div> 
+        </div> 
+        <div class="friend"> 
+         <img src="./searchcenter/images/player_def.png" alt="" /> 
+         <div class="name" id="Player2_Name">
+					<h4 id="{$Roomcont3}"></h4>
+         </div> 
+         <div class="score" > 
+          <h4 id="Player2_Rank"></h4> 
+         </div> 
+        </div> 
+        <div class="friend"> 
+         <img src="./searchcenter/images/player_def.png" alt="" /> 
+         <div class="name" id="Player3_Name">
+						<h4 id="{$Roomcont4}"> </h4>
+         </div> 
+         <div class="score" > 
+          <h4 id="Player3_Rank"></h4> 
+         </div> 
+        </div> 
+        <div class="friend"> 
+         <img src="./searchcenter/images/player_def.png" alt="" /> 
+         <div class="name" id="Player4_Name">
+						<h4 id="{$Roomcont5}"> </h4>
+         </div> 
+         <div class="score" > 
+          <h4 id="Player4_Rank"></h4> 
+         </div> 
+        </div> 
+       </div> 
+      </div> 
+      <div id="menu-2" class="content about-section" style="-webkit-app-region: no-drag;"> 
+       <div class="row"> 
+        <div class="box-content user-content"> 
+         <h3 class="widget-title">扯淡中心</h3> 
+         <div id="DIV_CHAT" style="text-align:left"> 
+		 
+         </div> 
+		  <div class="useinput" style="text-align:center">
+                <div class="input-group">
+                    <input id="txtmsg" type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <button id="msg_Submit" class="btn btn-default" type="button" onclick="set_chat_msg()">发送!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div> 
+       </div> 
+       <div class="row"> 
+       </div> 
+      </div> 
+      <div id="menu-3" class="content gallery-section"> 
+       <div class="user-info"> 
+        <h3 class="widget-title">你的战绩</h3> 
+				<img src="./searchcenter/images/player_def.png" class="user-logo" /> 
+				<div class="box-content user-content"> 
+					<div class="project-pages"> 
+        <div class="user-data-info"> 
+         <div class="data-info-box"> 
+          <h3>总排名</h3> 
+          <h3>1</h3> 
+         </div> 
+         <div class="data-info-box"> 
+          <h3>总比赛</h3> 
+          <h3>{$matched}</h3> 
+         </div> 
+         <div class="data-info-box"> 
+          <h3>KD</h3> 
+          <h3>{$KD}</h3> 
+         </div> 
+         <div class="data-info-box"> 
+          <h3>助攻</h3> 
+          <h3>{$A}</h3> 
+         </div> 
+         <div class="data-info-box"> 
+          <h3>天梯</h3> 
+          <h3>{$rank}</h3> 
+         </div> 
+         <div class="data-info-box"> 
+          <h3>总输出</h3> 
+          <h3>{$rws}</h3> 
+         </div> 
+        </div> 
+       </div> 
+
+        </div> 
+       </div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="col-md-3 hidden-sm" style="-webkit-app-region: no-drag;"> 
+     <nav id="nav" class="main-navigation hidden-xs hidden-sm"> 
+      <ul class="main-menu"> 
+       <li> <a class="show-1 active homebutton" href="#"><i class="fa fa-home"></i>对战匹配</a> </li> 
+       <li> <a class="show-2 aboutbutton" href="#"><i class="fa fa-users"></i>扯淡中心</a> </li> 
+       <li> <a class="show-3 projectbutton" href="#"><i class="fa fa-id-card"></i>你的战绩</a> </li> 
+       <li> <a class="show-5 contactbutton" onclick=ExitRoomt() href="#"><i class="fa fa-sign-out"></i>退出匹配</a> </li> 
+      </ul> 
+     </nav> 
+    </div> 
+   </div> 
+  </div> 
+
+</div>
+	<script>window.$ = window.jQuery = require('./js/jquery.js');</script>
+  <script src="./searchcenter/js/vendor/jquery-1.10.2.min.js"></script>  
+  <script src="./searchcenter/js/plugins.js"></script> 
+  <script src="./searchcenter/js/main.js"></script> 
+	<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+  <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
+  <link href="./css/toastr.min.css" rel="stylesheet">
+  <script src="./js/toastr.min.js"></script>
+  <script>
+    window.toastr = require('toastr');
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "10000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		};
+    var exit = false;
+		document.getElementById("count_area").style.visibility="hidden";
+		document.getElementById("in_gaming").style.visibility="hidden";
+		document.getElementById("count_area").style.display="none";
+		document.getElementById("in_gaming").style.display="none";
+    document.getElementById("userLoginName").innerHTML = require('electron').remote.getGlobal('sharedObject').UserName +"#"+require('electron').remote.getGlobal('sharedObject').UserRoomID;
+    var ajax = new XMLHttpRequest();
+  	ajax.onreadystatechange = function () {
+      if(exit)
+        return;
+      if(ajax.readyState == 4 || ajax.readyState=="complete"){
+        if(ajax.responseText == "unk_secKey" || ajax.responseText == "not_find_key") 
+				{
+					toastr["error"]("安全码异常!请联系管理员!");
+					return;
+        }
+        var data = JSON.parse(ajax.responseText);
+        if(data.success == false)
+        {
+          if(data.MsgType == "RoomUpdate")
+          {
+            if(data.Result == "Room_Not_Found")
+            {
+              toastr["error"]("房间号错误!请联系管理员!");
+            }
+            if(data.Result == "Player_No_inRoom")
+            {
+              toastr["error"]("房间号错误!请联系管理员!");
+            }
+            return;
+          }
+          if(data.MsgType == "ExitRoom")
+          {
+            if(data.Result == "Wrong_RoomID")
+            {
+              toastr["error"]("房间号错误!请联系管理员!");
+              return;
+            }else
+            {
+              toastr["error"]("发生未知错误[ExitRoom]!请联系管理员!");
+              return;
+            }
+          }
+        }else{
+          if(data.MsgType == "ExitRoom")
+          {
+            toastr["success"]("成功退出房间,正在连接大厅!");
+            exit = true;
+            console.log("Exit Room!");
+            setTimeout( function(){
+								window.location.href="./Main.html";
+						}, 3 * 1000);
+            return;
+          }
+          if(data.MsgType == "RoomUpdate")
+          {
+            var roomdata = JSON.parse(data.Result);
+            document.getElementById("{$Roomcont1}").innerHTML = roomdata.Player_1;
+            if(roomdata.Player_1 != '')
+            {
+
+              document.getElementById("Player0_Rank").innerHTML = roomdata.Player_1_Rank;
+            }else
+            {
+              document.getElementById("Player0_Rank").innerHTML = "";
+            }
+            document.getElementById("{$Roomcont2}").innerHTML = roomdata.Player_2;
+            if(roomdata.Player_2 != '')
+            {
+
+              document.getElementById("Player1_Rank").innerHTML = roomdata.Player_2_Rank;
+            }else
+            {
+              document.getElementById("Player1_Rank").innerHTML = "";
+            }
+            document.getElementById("{$Roomcont3}").innerHTML = roomdata.Player_3;
+            if(roomdata.Player_3 != '')
+            {
+              document.getElementById("Player2_Rank").innerHTML = roomdata.Player_3_Rank;
+
+            }else
+            {
+              document.getElementById("Player2_Rank").innerHTML = "";
+            }
+            document.getElementById("{$Roomcont4}").innerHTML = roomdata.Player_4;
+            if(roomdata.Player_4 != '')
+            {
+              document.getElementById("Player3_Rank").innerHTML = roomdata.Player_4_Rank;
+
+            }else
+            {
+              document.getElementById("Player3_Rank").innerHTML = "";
+            }
+            document.getElementById("{$Roomcont5}").innerHTML = roomdata.Player_5;
+            if(roomdata.Player_5 != '')
+            {
+              document.getElementById("Player4_Rank").innerHTML = roomdata.Player_5_Rank;
+
+            }else
+            {
+              document.getElementById("Player4_Rank").innerHTML = "";
+            }
+          }
+
+        }
+
+      }
+    }
+    ExitRoomt = function ()
+		{
+      ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_exit?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey +"&roomid="
+      + require('electron').remote.getGlobal('sharedObject').UserRoomID);
+      require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
+    	ajax.send();
+		}
+    setInterval(
+      function(){
+        ajax.open('get',
+                   require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_updatestatus?secKey='
+                  + require('electron').remote.getGlobal('sharedObject').UserSecKey
+                  + "&roomid=" +  require('electron').remote.getGlobal('sharedObject').UserRoomID
+                  );
+				ajax.send();
+      },1000);
+  </script>  
+ </body>
+</html>

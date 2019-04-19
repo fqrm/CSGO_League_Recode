@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" style="overflow:hidden">
 <header style="-webkit-app-region: drag">
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
@@ -7,12 +7,78 @@
 <title>登陆</title>
 <link rel="stylesheet" type="text/css" href="./css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="./css/component.css" />
+<script src="./js/jquery.min.js"></script>
+<link href="./css/toastr.min.css" rel="stylesheet">
+<script src="./js/toastr.min.js"></script>
 <script>
+  window.toastr = require('toastr');
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "10000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  };
+  
+  toastr["info"]("欢迎来到" + require('electron').remote.getGlobal('sharedObject').WebSiteName);
+  toastr.options['timeOut'] = "5000";
+  var ajax = new XMLHttpRequest();
+  ajax.onreadystatechange = function () {
+    if(ajax.readyState == 4 || ajax.readyState=="complete"){
+      var data = JSON.parse(ajax.responseText);
+      if(data.msgType == 'Login'){
+        console.log('Login');
+        if(data.username == "")
+        {
+          toastr["error"]("用户名或者密码不能为空");
+          return;
+        }else if(data.success == false)
+        {
+          toastr["error"]("登陆失败!");
+          return;
+        }else if(data.success == true)
+        {
+          require('electron').remote.getGlobal('sharedObject').UserName = document.getElementById("userLoginName").value;
+          require('electron').remote.getGlobal('sharedObject').UserSecKey = data.secKey;
+          toastr["success"]("登陆成功! "+ document.getElementById("userLoginName").value +" 欢迎你的到来");
+          setTimeout( function(){
+            window.location.href="./Main.html";
+          }, 3 * 1000 );
+          return;
+        }
+
+      }else{
+        toastr["error"]("后方服务器错误 0x2 ,请联系管理员!");
+        console.log('Error');
+      }
+    }
+     
+    console.log(ajax.responseText);
+  }
 	exit = function ()
 	{
       var ipc = require('electron').ipcRenderer;
-      console.log('window-close')
+      console.log('window-close');
       ipc.send('window-close');
+  }
+  goRegister = function ()
+	{
+    window.location.href="./register.html";
+  }
+  sendLoginMsg = function ()
+	{
+    ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/login?logname='+ document.getElementById("userLoginName").value + "&logpass=" + document.getElementById("userLoginPass").value);
+    ajax.send();
   }
 </script>
 <style type="text/css">
@@ -91,7 +157,7 @@
   }
   </style>
 </head>
-<body>  
+<body scroll="no" style="overflow:hidden">  
 		<div class="container demo-1">
 			<div class="content">
 				<div id="large-header" class="large-header">
@@ -111,20 +177,19 @@
 						<p>而不是给生命以岁月</p>
 						<p>To the time to life, rather than to life in time</p>
 						<h3>-Blaise Pascal</h3>
-						<form action="/index/Login_process" name="Login" method="post" id="LogFrom" style="-webkit-app-region: no-drag;">
+						<form action="" name="Login" method="post" id="LogFrom" style="-webkit-app-region: no-drag;">
 							<div class="input_outer">
 								<span class="u_user"></span>
-								<input name="logname" class="text" style="color: #FFFFFF !important; -webkit-app-region: no-drag;" type="text" placeholder="请输入账户" >
+								<input id="userLoginName" name="logname" class="text" style="color: #FFFFFF !important; -webkit-app-region: no-drag;" type="text" placeholder="请输入账户" >
 							</div>
 							<div class="input_outer">
 								<span class="us_uer"></span>
-								<!--按理说要前端处理加密的,但是我们不是重要软件[金融/社交],因此可以不用.其实三我懒,不好意思-->
-								<input name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100; -webkit-app-region: no-drag;"value="" type="password" placeholder="请输入密码">
+								<!--按理说要前端处理加密的,但是我们不是重要软件[金融/社交],因此可以不用.其实我懒,不好意思-->
+								<input id="userLoginPass" name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100; -webkit-app-region: no-drag;"value="" type="password" placeholder="请输入密码">
 							</div>
-							<div class="mb2"><a onclick="LogFrom.submit()" class="act-but submit" href="#" style="color: #FFFFFF ;-webkit-app-region: no-drag;">一键登录</a></div>
-							<div class="mb2"><a class="act-Reg submit" href="/index/index/Register" style="color: #FFFFFF; -webkit-app-region: no-drag;">快速注册</a></div>
+							<div class="mb2"><a onclick="sendLoginMsg()" class="act-but submit" href="#" style="color: #FFFFFF ;-webkit-app-region: no-drag;">一键登录</a></div>
+							<div class="mb2"><a onclick="goRegister()" class="act-Reg submit" href="#" style="color: #FFFFFF; -webkit-app-region: no-drag;">快速注册</a></div>
 						</form>
-						
 					</div>
 				</div>
 			</div>

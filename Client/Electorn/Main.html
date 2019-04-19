@@ -1,0 +1,317 @@
+<!doctype html>
+<html class="no-js" lang="" style="-webkit-app-region: drag">
+    <head>
+		<title>对战中心</title>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" media="all" />
+		<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./searchcenter/css/fonts.css" media="all" />
+		<link rel="stylesheet" href="./css/owl.carousel.css">
+		<link rel="stylesheet" href="./css/owl.theme.css">
+		<link rel="stylesheet" type="text/css" href="./css/full-slider.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="./css/jPushMenu.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="./css/hover.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="./css/jquery.fancybox.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="./css/animate.css" media="all" />
+		<link rel="stylesheet" type="text/css" href="./css/preload.css" media="all" />
+		<link rel="stylesheet" href="./css/normalize.css">
+		<link rel="stylesheet" href="./css/main.css"><!--css for Main sayle-->
+		<link rel="stylesheet" href="./css/media.css"><!--css for Responsive-->
+		<script src="./js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body>				
+		<div id="loader-wrapper">
+			<div id="loader"></div>
+			<div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+		</div>
+		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" style="overflow:hidden;-webkit-app-region: no-drag;">
+			<img src="./img/logo.png" alt="" />
+			<a data-toggle="modal" data-target="#ConnectRoom" href="#myCarousel">加入房间</a>
+			<a href="#hireme_area">比赛记录</a>
+			<a href="#service_area">封禁列表</a>
+			<a href="#project_area">平台协议</a>
+			<a href="#contact_area">关于平台</a>
+			<a onclick="exit()" href="#exit" >退出平台</a>
+		</nav>
+		
+		<div class="manu_div toggle-menu menu-right push-body" style="-webkit-app-region: no-drag;">
+			<button class=""><i class="fa fa-indent"></i></button>
+		</div>
+    <header id="myCarousel" class="carousel slide">
+       
+			<!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>	
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+		
+			<!-- Start Overlay heady -->
+			<div class="header_overlay">
+				<div class="container">
+				
+					<!-- Site logo -->
+					<div class="row header_top">
+					</div><!-- End Logo -->
+					
+					<!-- Header About -->
+					<div class="row header_text">
+						<div class="col-md-6 col-sm-12 col-xs-12">
+							<h1>你好 <span id="userLoginName">Player</span><br/>
+							欢迎来到 <span id="webSiteName">WebSiteName</span> </h1>
+						</div>
+						<div class="col-md-6 "></div>
+					</div><!-- End Header About -->
+					
+					<!-- Header promo -->
+					<div class="row header_promo" style="-webkit-app-region: no-drag;">
+						<div class="col-md-3 col-sm-3 col-xs-6">
+							<div class="single_promo hvr-sweep-to-bottom">						
+								<i class="fa fa-search" aria-hidden="true"></i>
+
+								<h2>对战匹配</h2>
+								<a onclick = btn_check_room() href='#'>点击开始</a>
+								
+							</div>
+						</div>
+						<div class="col-md-3  col-sm-3 col-xs-6">
+							<div class="single_promo hvr-sweep-to-bottom">
+								<i class="fa fa-users"></i>
+								<h2>队伍列表</h2>
+								<a href="#">点击查看</a>
+							</div>
+						</div>
+						<div class="col-md-3  col-sm-3 col-xs-6">
+							<div class="single_promo hvr-sweep-to-bottom">
+								<i class="fa fa-id-card"></i>
+								<h2>我的战绩</h2><a href="#">点击查询</a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-6">
+							<div class="single_promo hvr-sweep-to-bottom">
+								<i class="fa fa-wheelchair-alt"></i>
+								<h2>反作弊插件</h2>
+								<a href="#">点击下载</a>
+							</div>
+						</div>
+					</div><!-- End Header Ptomo -->
+
+				</div>
+			</div>
+		
+            <div class="item active">
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('./img/slider/slide1.jpg');"></div>
+				<div class="carousel-caption overlay">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the second background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('./img/slider/slide2.jpg');"></div>
+				<div class="carousel-caption overlay">
+                    
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the third background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('./img/slider/slide3.jpg');"></div>
+				<div class="carousel-caption overlay">
+                    
+                </div>
+            </div>
+        </div>
+
+    </header><!-- End of Header Area -->
+		<!--=========================
+			All script for this site 
+		============================== -->
+		<script>window.$ = window.jQuery = require('./js/jquery.js');</script>
+        <script src="./js/jquery.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/jPushMenu.js"></script>
+		<script src="./js/owl.carousel.js"></script>
+		<script src="./js/jquery.fancybox.js"></script>
+		<script src="./js/jquery.fancybox.pack.js"></script>
+		<script src="./js/wow.min.js"></script>
+		<script src="./js/plugins.js"></script>
+		<script src="./js/main.js"></script>
+
+		<link href="./css/toastr.min.css" rel="stylesheet">
+		<script src="./js/toastr.min.js"></script>
+		<script>
+		var FirstCheck = true;
+		window.toastr = require('toastr');
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "10000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		};
+		document.getElementById("userLoginName").innerHTML = require('electron').remote.getGlobal('sharedObject').UserName;
+		document.getElementById("webSiteName").innerHTML = require('electron').remote.getGlobal('sharedObject').WebSiteName;
+		exit = function ()
+		{
+			var ipc = require('electron').ipcRenderer;
+		    ipc.send('window-close');
+		}
+		var ajax = new XMLHttpRequest();
+  		ajax.onreadystatechange = function () {
+			if(ajax.readyState == 4 || ajax.readyState=="complete"){
+				if(ajax.responseText == "unk_secKey" || ajax.responseText == "not_find_key") 
+				{
+					toastr["error"]("安全码异常!请联系管理员!");
+					return;
+				}
+				var data = JSON.parse(ajax.responseText);
+				if(data.MsgType == "Check_Room")
+				{
+					if(data.Result == "in_room")
+					{		
+						require('electron').remote.getGlobal('sharedObject').UserRoomID = data.RoomID;
+						toastr["info"]("已经在房间[" + data.RoomID + "]中");
+						if(confirm("当前已经在房间[" + data.RoomID +"] 中,是否重新连接?"))
+						{
+							toastr["success"]("正在连接到: " + data.RoomID);
+							setTimeout( function(){
+								window.location.href="./Search.html";
+							}, 3 * 1000 );
+						}
+						else
+						{
+							require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
+							ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_exit?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey);
+							ajax.send();
+						}
+					}
+					else if(!FirstCheck)
+					{
+						require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
+						ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_create?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey);
+						ajax.send();
+					}
+				}
+				if(data.MsgType == "ExitRoom")
+				{
+					if(data.success)
+					{
+						toastr["success"]("您已经成功退出房间: " + data.RoomID);
+						return;
+					}else{
+						toastr["error"]("您没有在任何房间中");
+						return;
+					}
+				}
+				if(data.MsgType == "CreateRoom")
+				{
+					if(data.success == false)
+					{
+						toastr["error"]("您已经在房间: " + data.RoomID + "中,正在重连");
+						require('electron').remote.getGlobal('sharedObject').UserRoomID = data.RoomID;
+						setTimeout( function(){
+								window.location.href="./Search.html";
+						}, 3 * 1000 );
+						return;
+					}else{
+						toastr["info"]("房间: " + data.RoomID + "已创建");
+						toastr["success"]("正在连接到: " + data.RoomID);
+						require('electron').remote.getGlobal('sharedObject').UserRoomID = data.RoomID;
+						setTimeout( function(){
+								window.location.href="./Search.html";
+						}, 3 * 1000 );
+						return;
+					}
+				}
+				if(data.MsgType == "JoinRoom")
+				{
+					if(data.success == false)
+					{
+						if(data.Result == "emptyRoom")
+							toastr["error"]("您没有输入房间号.真调皮");
+						else if(data.Result == "too_Much_Room")
+							toastr["error"]("请先退出原来的房间再加入新房间");
+						else if(data.Result == "Wrong_Room_ID")
+							toastr["error"]("找不到房间号");
+						else if(data.Result == "Room_full")
+							toastr["error"]("房间满了,您来晚了");
+						else if(data.Result == "Was_inRoom")
+							toastr["error"]("您已经在房间里了");
+						else if(data.Result == "Unk_Error")
+							toastr["error"]("未知错误,请联系管理员");
+						return;
+					}else{
+						toastr["info"]("房间: " + data.RoomID + "已找到");
+						toastr["success"]("正在连接到: " + data.RoomID);
+						require('electron').remote.getGlobal('sharedObject').UserRoomID = data.RoomID;
+						setTimeout( function(){
+								window.location.href="./Search.html";
+						}, 3 * 1000 );
+						return;
+					}
+				}
+
+			}
+		}
+		check_room = function ()
+		{
+			ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_check_in_room?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey);
+    		ajax.send();
+		}
+		btn_check_room = function()
+		{
+			FirstCheck = false;
+			check_room();
+		}
+		join_room = function()
+		{
+			ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_join?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey + "&roomid=" 
+			+ document.getElementById("Room_number").value);
+    		ajax.send();
+		}
+		check_room();
+		</script>	
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="ConnectRoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								连接某个房间
+							</h4>
+						</div>
+						<div class="modal-body">
+							注意,请勿上黑车!开车有风险!!上车需谨慎!!!
+							<input  style="-webkit-app-region: no-drag;" id="Room_number" type="text" class="form-control">
+						</div>
+						<div class="modal-footer" style="-webkit-app-region: no-drag;">
+							<button type="button" class="btn btn-default" data-dismiss="modal">按错了
+							</button>
+							<button type="button" class="btn btn-primary" onclick=join_room()>
+								连接房间!
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+    </body>
+</html>

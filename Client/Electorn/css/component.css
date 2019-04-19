@@ -73,6 +73,14 @@
 	position: absolute;
 	margin: 10px 13px;
 }
+.u_email{
+	width: 25px;
+	height: 25px;
+	background-image: url(../img/login_ico.png);
+	background-position: -84px -1px;
+	position: absolute;
+	margin: 10px 13px;
+}
 .l-login{
 	position: absolute;
 	z-index: 1;

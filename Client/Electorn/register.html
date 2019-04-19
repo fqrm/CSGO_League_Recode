@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<header style="-webkit-app-region: drag">
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>注册</title>
+<link rel="stylesheet" type="text/css" href="./css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="./css/component.css" />
+<script src="./js/jquery.min.js"></script>
+<link href="./css/toastr.min.css" rel="stylesheet">
+<script src="./js/toastr.min.js"></script>
+<script>
+exit = function ()
+{
+     var ipc = require('electron').ipcRenderer;
+     console.log('window-close')
+     ipc.send('window-close');
+}
+window.toastr = require('toastr');
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "10000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+	};
+	toastr["info"]("欢迎你的注册!");
+	toastr.options['timeOut'] = "5000";
+	var ajax = new XMLHttpRequest();
+  ajax.onreadystatechange = function () {
+    if(ajax.readyState == 4 || ajax.readyState=="complete"){
+			var data = JSON.parse(ajax.responseText);
+			if(data.msgType == 'register'){
+				console.log('register');
+				if(data.uFuck == 1)
+					toastr["warning"]("请检查输入信息是否完整!");
+				else if(data.uFuck == 2)
+					toastr["error"]("邮箱格式不正确!");
+				else if(data.uFuck == 3)
+					toastr["error"]("用户名已经注册!");
+				else if(data.uFuck == 4)
+					toastr["error"]("邮箱已经注册!");
+				else if(data.uFuck == 5)
+					toastr["error"]("数据库错误,请联系管理员!");
+				else if(data.uFuck == 0 && data.success == true)
+				{
+					toastr["success"]("注册成功!欢迎你的加入");
+					window.location.href="./index.html";
+				}
+      }else{
+				toastr["error"]("后方服务器错误 0x2 ,请联系管理员!");
+        console.log('Error');
+      }
+    }
+    console.log(ajax.responseText);
+	}
+	sendRegMsg = function ()
+	{
+    ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/register?Regname='+ document.getElementById("“userReginName”").value + "&Regpass=" + document.getElementById("“userReginPass”").value + "&Regemail=" + document.getElementById("“userReginEmail”").value);
+    ajax.send();
+	}
+</script>
+
+<style type="text/css">
+	body {
+	  font-family:
+		'HelveticaNeue-UltraLight', 
+		'Helvetica Neue UltraLight', 
+		Roboto, 
+		Arial, 
+		Sans-serif;
+	  backface-visibility:hidden;
+	  background:#eee;
+	}
+	
+	input[id*="joacims-menu"] {
+	  display:none;
+	}
+	
+	input[id*="joacims-menu"] + label {
+	  display:block;
+	  width:35px;
+	  height:35px;
+	  background:#222;
+	  cursor:pointer;
+	  font-size:30px;
+	  color:#fff;
+	  position:relative;
+	}
+	
+	input[id*="joacims-menu"] + label span {
+	  display:block;
+	  position:absolute;
+	  left:8px;
+	  transition:.2s;
+	}
+	
+	input[id*="joacims-menu"]:checked + label span {
+	  transform:rotate(45deg);
+	  font-size:34px;
+	  top:-2px;
+	  left:9px;
+	}
+	
+	nav a {
+	  display:block;
+	  height:40px;
+	  line-height:40px;
+	  background:#3e3e3e;
+	  width:100px;
+	  padding-left:10px;
+	  text-decoration:none;
+	  color:white;
+	  box-shadow:5px 0 0 #000;
+	}
+	
+	input[id*="joacims-menu"] ~ nav a:nth-child(1) { box-shadow:5px 0 0 #3498db; transition-delay:.05s; }
+	input[id*="joacims-menu"] ~ nav a:nth-child(2) { box-shadow:5px 0 0 #2ecc71; transition-delay:.10s; }
+	input[id*="joacims-menu"] ~ nav a:nth-child(3) { box-shadow:5px 0 0 #e67e22; transition-delay:.15s; }
+	input[id*="joacims-menu"] ~ nav a:nth-child(4) { box-shadow:5px 0 0 #c0392b; transition-delay:.20s; }
+	
+	input[id*="joacims-menu"]:checked ~ nav a {
+	  margin-left:0px;
+	}
+	
+	input[id*="joacims-menu"]:checked ~ nav a:hover {
+	  width:110px;
+	}
+	
+	input[id*="joacims-menu"] ~ nav a {
+	  margin-left:-110px;
+	  transition:.6s margin;
+	}
+	
+	input[id*="joacims-menu"] ~ nav a:hover {
+	  background:#999;
+	}
+	</style>
+</head>
+<body>
+		<div class="container demo-1">
+			<div class="content">
+				<div id="large-header" class="large-header">
+						<div id="shit" >
+							<input  style="-webkit-app-region: no-drag;" type="checkbox" id="joacims-menu" checked/>        
+							<label for="joacims-menu" style="-webkit-app-region: no-drag;"><span>+</span></label>    
+							<nav  style="-webkit-app-region: no-drag;">
+								<a href="#">平台官网</a>
+								<a href="#">开发者博客</a>
+								<a href="#">开发者批站</a>
+								<a onclick="exit()" href="#">退出平台</a>
+							</nav>
+						</div>
+					<canvas id="demo-canvas"></canvas>
+					<div class="logo_box">
+						
+						<p>给岁月以生命</p>
+						<p>而不是给生命以岁月</p>
+						<p>To the time to life, rather than to life in time</p>
+						<h3>-Blaise Pascal</h3>
+						<form action="" name="Login" method="post" id="RegFrom"  style="-webkit-app-region: no-drag;">
+							<div class="input_outer">
+								<span class="u_user"></span>
+								<input id=“userReginName” name="Regname" class="text" style="color: #FFFFFF !important; -webkit-app-region: no-drag;" type="text" placeholder="输入用户名">
+							</div>
+							<div class="input_outer">
+								<span class="us_uer"></span>	
+								<input id=“userReginPass” name="Regpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;; -webkit-app-region: no-drag;"value="" type="password" placeholder="请输入密码">
+							</div>
+							<div class="input_outer">
+								<span class="u_email"></span>	
+								<input id=“userReginEmail” name="Regemail" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;; -webkit-app-region: no-drag;"value="" type="text" placeholder="请输入邮箱">
+							</div>
+							<div class="mb2"><a onclick="sendRegMsg()" class="act-Reg submit" href="#" style="color: #FFFFFF ;-webkit-app-region: no-drag;">快速注册</a></div>
+							<div class="mb2"><a class="act-but submit" href="./index.html" style="color: #FFFFFF ;-webkit-app-region: no-drag;">返回登录</a></div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="text-align:center;">
+		<script src="./js/demo-1.js"></script>
+		<script src="./js/TweenLite.min.js"></script>
+		<script src="./js/EasePack.min.js"></script>
+		<script src="./js/rAF.js"></script>
+		<script src="./js/demo-1.js"></script>
+</div>
+	</body>
+</html>
