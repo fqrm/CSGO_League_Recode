@@ -44,7 +44,10 @@
           return;
         }else if(data.success == false)
         {
-          toastr["error"]("登陆失败!");
+          if(data.msg == 'was_Online')
+            toastr["error"]("账号已经登录,不能重复登录!");
+          else
+            toastr["error"]("登陆失败!账号或密码错误!");
           return;
         }else if(data.success == true)
         {

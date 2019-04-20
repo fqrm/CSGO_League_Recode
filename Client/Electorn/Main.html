@@ -167,11 +167,7 @@
 		};
 		document.getElementById("userLoginName").innerHTML = require('electron').remote.getGlobal('sharedObject').UserName;
 		document.getElementById("webSiteName").innerHTML = require('electron').remote.getGlobal('sharedObject').WebSiteName;
-		exit = function ()
-		{
-			var ipc = require('electron').ipcRenderer;
-		    ipc.send('window-close');
-		}
+
 		var ajax = new XMLHttpRequest();
   		ajax.onreadystatechange = function () {
 			if(ajax.readyState == 4 || ajax.readyState=="complete"){
@@ -239,6 +235,7 @@
 						return;
 					}
 				}
+				
 				if(data.MsgType == "JoinRoom")
 				{
 					if(data.success == false)
@@ -279,15 +276,26 @@
 			FirstCheck = false;
 			check_room();
 		}
+		exit = function ()
+		{
+			toastr["success"]("退出中...");
+			ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/logout?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey);
+    		ajax.send();
+			setTimeout( function(){
+				var ipc = require('electron').ipcRenderer;
+		    	ipc.send('window-close');
+			}, 2 * 1000 );
+
+		}
 		join_room = function()
 		{
 			ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_join?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey + "&roomid=" 
 			+ document.getElementById("Room_number").value);
     		ajax.send();
 		}
+
 		check_room();
 		</script>	
-		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="ConnectRoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 				<div class="modal-dialog">
 					<div class="modal-content">
