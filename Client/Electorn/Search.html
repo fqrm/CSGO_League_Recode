@@ -115,10 +115,10 @@
         <p>你准备好了与你的队友们开始紧张刺激的掉段之旅了么?</p> 
         <div class="btn-group" role="group" aria-label="" style="-webkit-app-region: no-drag;"> 
          <button onclick=Ready_to_Play() id="searchbutton" class="searchBtn" style="vertical-align:middle"><span id="searchP">点击准备</span></button>
-				 <div id="in_gaming"><h1>正在游戏中。。。</h1></div>
+				 <div id="in_gaming"><h1>正在游戏中...</h1></div>
         </div> 
 		<p id="count_area">
-			搜索时间：
+			搜索用时：
 			<span id="count_time">0</span>
 		</p>
        </div> 
@@ -241,7 +241,7 @@
        <li> <a class="show-1 active homebutton" href="#"><i class="fa fa-home"></i>对战匹配</a> </li> 
        <li> <a class="show-2 aboutbutton" href="#"><i class="fa fa-users"></i>扯淡中心</a> </li> 
        <li> <a class="show-3 projectbutton" href="#"><i class="fa fa-id-card"></i>你的战绩</a> </li> 
-       <li> <a class="show-5 contactbutton" onclick=ExitRoomt() href="#"><i class="fa fa-sign-out"></i>退出匹配</a> </li> 
+       <li> <a class="show-5 contactbutton" onclick=ExitRoomt() href="#" ><i class="fa fa-sign-out" ></i>退出匹配</a> </li> <!---->
       </ul> 
      </nav> 
     </div> 
@@ -279,15 +279,13 @@
     var exit = false;
     var first = true;
     var search = false;
-		document.getElementById("count_area").style.visibility="hidden";
-		document.getElementById("in_gaming").style.visibility="hidden";
-		document.getElementById("count_area").style.display="none";
-		document.getElementById("in_gaming").style.display="none";
+    var searching = false;
+    var matching = false;
+    $("#count_area").hide();
+    $("#in_gaming").hide();
     document.getElementById("userLoginName").innerHTML = require('electron').remote.getGlobal('sharedObject').UserName +"#"+require('electron').remote.getGlobal('sharedObject').UserRoomID;
     var ajax = new XMLHttpRequest();
   	ajax.onreadystatechange = function () {
-      if(exit)
-        return;
       if(ajax.readyState == 4 || ajax.readyState=="complete"){
         if(ajax.responseText == "unk_secKey" || ajax.responseText == "not_find_key") 
 				{
@@ -297,6 +295,14 @@
         var data = JSON.parse(ajax.responseText);
         if(data.success == false)
         {
+          exit = true;
+          ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_exit?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey +"&roomid="
+            + require('electron').remote.getGlobal('sharedObject').UserRoomID);
+            require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
+          ajax.send();
+          setTimeout( function(){
+								window.location.href="./Main.html";
+					}, 2 * 1000 );
           if(data.MsgType == "Match_unReady")
           {
             if(data.Result == "Not_IN_ROOM")
@@ -327,7 +333,6 @@
             {
               toastr["error"]("[RoomUpdate]房间号错误!请联系管理员!");
             }
-            return;
           }
           if(data.MsgType == "ExitRoom")
           {
@@ -345,6 +350,9 @@
           if(data.MsgType == "Match_unReady")
           {
             toastr["info"]("取消准备");
+            $("#count_area").hide();
+            $("#in_gaming").hide();
+            $("#count_time").text('0 秒');
             return;
           }
           if(data.MsgType == "Match_Ready")
@@ -355,7 +363,7 @@
           if(data.MsgType == "ExitRoom")
           {
             toastr["success"]("成功退出房间,正在连接大厅!");
-            exit = true;
+           
             console.log("Exit Room!");
             setTimeout( function(){
 								window.location.href="./Main.html";
@@ -364,82 +372,83 @@
           }
           if(data.MsgType == "RoomUpdate")
           {
-            //屎山,喝醉时候写的.
-            var roomdata = JSON.parse(data.Result);
             
-            if(roomdata.Player_1 != '' && document.getElementById("{$Roomcont1}").innerHTML == "" && !first)
-              toastr["info"](roomdata.Player_1 + " 已连接到房间!");
-            if(roomdata.Player_1 == '' && document.getElementById("{$Roomcont1}").innerHTML != "" && !first)
-              toastr["info"](document.getElementById("{$Roomcont1}").innerHTML + " 已退出房间!");
-            document.getElementById("{$Roomcont1}").innerHTML = roomdata.Player_1;
-            if(roomdata.Player_1 != '')
-            {
-              document.getElementById("Player1_Ready").innerHTML = "准备:" + roomdata.Player_1_Ready;
-              document.getElementById("Player0_Rank").innerHTML = "Rank:" + roomdata.Player_1_Rank;
-            }else
-            {
-              document.getElementById("Player1_Ready").innerHTML = "";
-              document.getElementById("Player0_Rank").innerHTML = "";
-            }
-            if(roomdata.Player_2 != '' && document.getElementById("{$Roomcont2}").innerHTML == "" && !first)
-              toastr["info"](roomdata.Player_2 + " 已连接到房间!");
-            if(roomdata.Player_2 == '' && document.getElementById("{$Roomcont2}").innerHTML != "" && !first)
-              toastr["info"](document.getElementById("{$Roomcont2}").innerHTML + " 已退出房间!");
-            document.getElementById("{$Roomcont2}").innerHTML = roomdata.Player_2;
-            if(roomdata.Player_2 != '')
-            {
-              document.getElementById("Player2_Ready").innerHTML = "准备:" + roomdata.Player_2_Ready;
-              document.getElementById("Player1_Rank").innerHTML = "Rank:" + roomdata.Player_2_Rank;
-            }else
-            {
-              document.getElementById("Player2_Ready").innerHTML = "";
-              document.getElementById("Player1_Rank").innerHTML = "";
-            }
-            if(roomdata.Player_3 != '' && document.getElementById("{$Roomcont3}").innerHTML == "" && !first)
-              toastr["info"](roomdata.Player_3 + " 已连接到房间!");
-            if(roomdata.Player_3 == '' && document.getElementById("{$Roomcont3}").innerHTML != "" && !first)
-              toastr["info"](document.getElementById("{$Roomcont3}").innerHTML + " 已退出房间!");
+              //屎山,喝醉时候写的.
+              var roomdata = JSON.parse(data.Result);
+              if(roomdata.Player_1 != '' && document.getElementById("{$Roomcont1}").innerHTML == "" && !first)
+                toastr["info"](roomdata.Player_1 + " 已连接到房间!");
+              if(roomdata.Player_1 == '' && document.getElementById("{$Roomcont1}").innerHTML != "" && !first)
+                toastr["info"](document.getElementById("{$Roomcont1}").innerHTML + " 已退出房间!");
+              document.getElementById("{$Roomcont1}").innerHTML = roomdata.Player_1;
+              if(roomdata.Player_1 != '')
+              {
+                document.getElementById("Player1_Ready").innerHTML = "准备:" + roomdata.Player_1_Ready;
+                document.getElementById("Player0_Rank").innerHTML = "Rank:" + roomdata.Player_1_Rank;
+              }else
+              {
+                document.getElementById("Player1_Ready").innerHTML = "";
+                document.getElementById("Player0_Rank").innerHTML = "";
+              }
+              if(roomdata.Player_2 != '' && document.getElementById("{$Roomcont2}").innerHTML == "" && !first)
+                toastr["info"](roomdata.Player_2 + " 已连接到房间!");
+              if(roomdata.Player_2 == '' && document.getElementById("{$Roomcont2}").innerHTML != "" && !first)
+                toastr["info"](document.getElementById("{$Roomcont2}").innerHTML + " 已退出房间!");
+              document.getElementById("{$Roomcont2}").innerHTML = roomdata.Player_2;
+              if(roomdata.Player_2 != '')
+              {
+                document.getElementById("Player2_Ready").innerHTML = "准备:" + roomdata.Player_2_Ready;
+                document.getElementById("Player1_Rank").innerHTML = "Rank:" + roomdata.Player_2_Rank;
+              }else
+              {
+                document.getElementById("Player2_Ready").innerHTML = "";
+                document.getElementById("Player1_Rank").innerHTML = "";
+              }
+              if(roomdata.Player_3 != '' && document.getElementById("{$Roomcont3}").innerHTML == "" && !first)
+                toastr["info"](roomdata.Player_3 + " 已连接到房间!");
+              if(roomdata.Player_3 == '' && document.getElementById("{$Roomcont3}").innerHTML != "" && !first)
+                toastr["info"](document.getElementById("{$Roomcont3}").innerHTML + " 已退出房间!");
 
-            document.getElementById("{$Roomcont3}").innerHTML = roomdata.Player_3;
-            if(roomdata.Player_3 != '')
-            {
-              document.getElementById("Player3_Ready").innerHTML = "准备:" + roomdata.Player_3_Ready;
-              document.getElementById("Player2_Rank").innerHTML = "Rank:" + roomdata.Player_3_Rank;
-            }else
-            {
-              document.getElementById("Player3_Ready").innerHTML = "";
-              document.getElementById("Player2_Rank").innerHTML = "";
-            }
-            if(roomdata.Player_4 != '' && document.getElementById("{$Roomcont4}").innerHTML == "" && !first)
-              toastr["info"](roomdata.Player_4 + " 已连接到房间!");
-            if(roomdata.Player_4 == '' && document.getElementById("{$Roomcont4}").innerHTML != "" && !first)
-              toastr["info"](document.getElementById("{$Roomcont4}").innerHTML + " 已退出房间!");
-            document.getElementById("{$Roomcont4}").innerHTML = roomdata.Player_4;
-            if(roomdata.Player_4 != '')
-            {
-              document.getElementById("Player4_Ready").innerHTML = "准备:" + roomdata.Player_4_Ready;
-              document.getElementById("Player3_Rank").innerHTML = "Rank:" + roomdata.Player_4_Rank;
+              document.getElementById("{$Roomcont3}").innerHTML = roomdata.Player_3;
+              if(roomdata.Player_3 != '')
+              {
+                document.getElementById("Player3_Ready").innerHTML = "准备:" + roomdata.Player_3_Ready;
+                document.getElementById("Player2_Rank").innerHTML = "Rank:" + roomdata.Player_3_Rank;
+              }else
+              {
+                document.getElementById("Player3_Ready").innerHTML = "";
+                document.getElementById("Player2_Rank").innerHTML = "";
+              }
+              if(roomdata.Player_4 != '' && document.getElementById("{$Roomcont4}").innerHTML == "" && !first)
+                toastr["info"](roomdata.Player_4 + " 已连接到房间!");
+              if(roomdata.Player_4 == '' && document.getElementById("{$Roomcont4}").innerHTML != "" && !first)
+                toastr["info"](document.getElementById("{$Roomcont4}").innerHTML + " 已退出房间!");
+              document.getElementById("{$Roomcont4}").innerHTML = roomdata.Player_4;
+              if(roomdata.Player_4 != '')
+              {
+                document.getElementById("Player4_Ready").innerHTML = "准备:" + roomdata.Player_4_Ready;
+                document.getElementById("Player3_Rank").innerHTML = "Rank:" + roomdata.Player_4_Rank;
 
-            }else
-            {
-              document.getElementById("Player4_Ready").innerHTML = "";
-              document.getElementById("Player3_Rank").innerHTML = "";
-            }
-            if(roomdata.Player_5 != '' && document.getElementById("{$Roomcont5}").innerHTML == "" && !first)
-              toastr["info"](roomdata.Player_5 + " 已连接到房间!");
-            if(roomdata.Player_5 == '' && document.getElementById("{$Roomcont5}").innerHTML != "" && !first)
-              toastr["info"](document.getElementById("{$Roomcont5}").innerHTML + " 已退出房间!");
-            document.getElementById("{$Roomcont5}").innerHTML = roomdata.Player_5;
-            if(roomdata.Player_5 != '')
-            {
-              document.getElementById("Player5_Ready").innerHTML = "准备:" + roomdata.Player_5_Ready;
-              document.getElementById("Player4_Rank").innerHTML = "Rank:" + roomdata.Player_5_Rank;
+              }else
+              {
+                document.getElementById("Player4_Ready").innerHTML = "";
+                document.getElementById("Player3_Rank").innerHTML = "";
+              }
+              if(roomdata.Player_5 != '' && document.getElementById("{$Roomcont5}").innerHTML == "" && !first)
+                toastr["info"](roomdata.Player_5 + " 已连接到房间!");
+              if(roomdata.Player_5 == '' && document.getElementById("{$Roomcont5}").innerHTML != "" && !first)
+                toastr["info"](document.getElementById("{$Roomcont5}").innerHTML + " 已退出房间!");
+              document.getElementById("{$Roomcont5}").innerHTML = roomdata.Player_5;
+              if(roomdata.Player_5 != '')
+              {
+                document.getElementById("Player5_Ready").innerHTML = "准备:" + roomdata.Player_5_Ready;
+                document.getElementById("Player4_Rank").innerHTML = "Rank:" + roomdata.Player_5_Rank;
 
-            }else
-            {
-              document.getElementById("Player5_Ready").innerHTML = "";
-              document.getElementById("Player4_Rank").innerHTML = "";
-            }
+              }else
+              {
+                document.getElementById("Player5_Ready").innerHTML = "";
+                document.getElementById("Player4_Rank").innerHTML = "";
+              }
+            
             first = false;
           }
         }
@@ -447,6 +456,17 @@
     }
     ExitRoomt = function ()
 		{
+      if(matching)
+      {
+        toastr["error"]("正在比赛中!不能退出!");
+        return;
+      }
+      if(search)
+      {
+        toastr["error"]("正在匹配中!请取消准备后再退出!");
+        return;
+      }
+      exit = true;
       ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_exit?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey +"&roomid="
       + require('electron').remote.getGlobal('sharedObject').UserRoomID);
       require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
@@ -471,8 +491,105 @@
       search = !search;
 
 		}
+    //负责比赛通讯
+    var match_ajax = new XMLHttpRequest();
+  	match_ajax.onreadystatechange = function () {
+      if(match_ajax.readyState == 4 || match_ajax.readyState=="complete"){
+        if(match_ajax.responseText == "unk_secKey" || match_ajax.responseText == "not_find_key") 
+				{
+					toastr["error"]("安全码异常!请联系管理员!");
+					return;
+        }
+        var data = JSON.parse(match_ajax.responseText);
+        if(data.MsgType != "Match_Sync")
+          return;
+        if(data.success == true)
+        {
+            if(data.Result == 'GO_MATCH' || data.Result == 'IN_MATCH')
+            {
+              //开始比赛
+              if(searching)
+                toastr["success"]("匹配成功!");
+              $("#count_area").hide();
+              $("#in_gaming").show();
+              $("#count_time").text('0 秒');
+              $("#searchP").html("点击准备");
+              $("#searchbutton")[0].style.backgroundColor = '#33a7ca'
+              searching = false;
+              matching = true;
+              return;
+            }
+            if(data.Result == 'Nothing')
+            {
+              if(searching)
+                toastr["info"]("停止匹配!");
+              $("#count_area").hide();
+              $("#in_gaming").hide();
+              $("#count_time").text('0 秒');
+              searching = false;
+              matching = false;
+              return;
+            }
+            if(data.Result == 'Stop_Search')
+            {
+              toastr["info"]("停止匹配!");
+              $("#count_area").hide();
+              $("#in_gaming").hide();
+              $("#count_time").text('0 秒');
+              searching = false;
+              matching = false;
+              return;
+            }
+            if(data.Result == "Go_Search")
+            {
+              if(!searching)
+                toastr["success"]("所有玩家准备完毕!正在匹配..");
+             // $("#searchP").html("已准备");
+             // $("#searchbutton")[0].style.backgroundColor = '#ffff33'
+              $("#count_area").show();
+              //$("#in_gaming").show();
+              $("#count_time").text(data.Time + " 秒");
+              searching = true;
+              matching = false;
+              return;
+            }
+        }else{
+          if(data.Result == "Room_Not_Found")
+						  toastr["error"]("不在房间里!请联系管理员!");
+            else if(data.Result == "ID_Not_Found")
+              toastr["error"]("错误的房间号!请联系管理员!");
+            else if(data.Result == "Player_No_inRoom")
+              toastr["error"]("未知错误!请联系管理员!");
+            else if(data.Result == "unk_Error")
+              toastr["error"]("未知错误!请联系管理员!");
+            exit = true;
+            ajax.open('get',require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_exit?secKey='+ require('electron').remote.getGlobal('sharedObject').UserSecKey +"&roomid="
+            + require('electron').remote.getGlobal('sharedObject').UserRoomID);
+            require('electron').remote.getGlobal('sharedObject').UserRoomID = "";
+            ajax.send();
+            setTimeout( function(){
+								window.location.href="./Main.html";
+						}, 2 * 1000 );
+            return;
+        }   
+      }
+    }
     setInterval(
       function(){
+        if(exit)
+          return;
+          match_ajax.open('get',
+                   require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/match_sync?secKey='
+                  + require('electron').remote.getGlobal('sharedObject').UserSecKey
+                  + "&roomid=" +  require('electron').remote.getGlobal('sharedObject').UserRoomID
+                  );
+                  match_ajax.send();
+      },1000);
+
+    setInterval(
+      function(){
+        if(exit)
+          return;
         ajax.open('get',
                    require('electron').remote.getGlobal('sharedObject').WebsiteDomain + 'index.php/index/index/room_updatestatus?secKey='
                   + require('electron').remote.getGlobal('sharedObject').UserSecKey

@@ -56,7 +56,9 @@ window.toastr = require('toastr');
 				else if(data.uFuck == 0 && data.success == true)
 				{
 					toastr["success"]("注册成功!欢迎你的加入");
-					window.location.href="./index.html";
+					setTimeout( function(){
+            window.location.href="./index.html";
+          }, 3 * 1000 );
 				}
       }else{
 				toastr["error"]("后方服务器错误 0x2 ,请联系管理员!");
