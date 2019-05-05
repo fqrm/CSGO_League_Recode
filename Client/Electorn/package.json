@@ -1,12 +1,15 @@
 {
- "name": "electron-app",
+ "name": "CSGO",
  "version": "0.1.0",
  "main": "main.js",
  "devDependencies": {
+  "electron-packager": "^13.1.1",
   "electron-rebuild": "^1.8.4"
  },
  "dependencies": {
+  "jquery": "^1.12.4",
   "nanomsg": "^4.0.2",
-  "socket.io": "^2.2.0"
+  "socket.io": "^2.2.0",
+  "toastr": "^2.1.4"
  }
 }

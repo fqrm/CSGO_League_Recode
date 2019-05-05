@@ -29,7 +29,7 @@
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
   };
-  
+
   toastr["info"]("欢迎来到" + require('electron').remote.getGlobal('sharedObject').WebSiteName);
   toastr.options['timeOut'] = "5000";
   var ajax = new XMLHttpRequest();
